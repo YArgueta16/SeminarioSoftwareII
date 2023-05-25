@@ -19,7 +19,20 @@ export interface IProject {
     memoryProjects.push(newProject);
     return newProject;
   }
-  
+  export const updateProject = ( id:string, project:Partial<IProject>) => {
+    
+    const index = memoryProjects.findIndex(p => p._id === id);
+    if (index === -1) throw new Error('Project not found');
+    memoryProjects[index] = { ...memoryProjects[index], ...project, updatedAt: new Date() };
+    return memoryProjects[index];
+  }
+
+  export const deleteProject = (id:string) => {
+    const index = memoryProjects.findIndex(p => p._id === id);
+    if (index === -1) throw new Error('Project not found');
+    memoryProjects.splice(index, 1);
+    return true;
+  }
   export const getProjects = async () => {
     return memoryProjects;
   };
