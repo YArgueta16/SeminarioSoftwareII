@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { createProject, deleteProject, getProjects, updateProject } from '@libs/projects/projects';
+import { createProject, deleteProject, getProjects, updateProject, getProject} from '@libs/projects/projects';
 
 router.get('/', (_req, res) => {
   res.json({version:1, scope:'projects'});
@@ -21,26 +21,63 @@ router.post('/echo2', (req, res) => {
 });
 
 router.get('/all', async (_req, res) => {
-  const projects = await getProjects();
-  res.json(projects);
+  try{
+    const projects = await getProjects();
+    res.json(projects);
+  }
+  catch(ex:any ){
+    return res.status(500).json({error: ex?.message});
+  }
 });
+/*
+router.get('/all', (_req, res) => {
+  getProjects()
+    .then(projects => res.json(projects));
+    .catch(ex => res.status(500).json({error: ex?.message}));
+  
+});
+*/
 
 router.post('/new', async (req, res) => {
-  const { name = '', description = '', isActive = false } = req.body;
-  const newProject = { name, description, isActive: (isActive && true) };
-  const createdProject = await createProject(newProject);
-  res.json(createdProject);
+  try{
+    const { name = '', description = '', isActive = false } = req.body;
+    const newProject = { name, description, isActive: (isActive && true) };
+    const createdProject = await createProject(newProject);
+    res.json(createdProject);}
+  catch(ex:any ){
+    return res.status(500).json({error: ex?.message});
+
+  }
 });
-router.put ('/upd/:id', async (req, res) => {
-   const {id= ''} = req.params;
-   const {name= '', description = '', isActive= false} = req.body;
-   const updatedProject = await updateProject(id,{name,description,isActive:(isActive&&true)});
-   return res.json(updatedProject) 
+router.put ('/upd/:id', async (req, res) =>{
+   try{
+    const {id= ''} = req.params;
+    const {name= '', description = '', isActive= false} = req.body;
+    const updatedProject = await updateProject(id,{name,description,isActive:(isActive&&true)});
+    return res.json(updatedProject); }
+    catch(ex:any ){
+      return res.status(500).json({error: ex?.message});
+    }
   });
   router.delete('/del/:id', async (req, res) => {
-    const {id=''} = req.params;
-    const deletedProject = await deleteProject(id);
-    res.json({deleted: deletedProject, id});
+    try{
+      const {id=''} = req.params;
+      const deletedProject = await deleteProject(id);
+      res.json({deleted: deletedProject, id});}
+    catch(ex:any ){
+      return res.status(500).json({error: ex?.message});
+    }
+  });
+
+  router.get('/byid/:id',async (req, res) => {
+    try{
+      const {id =''} = req.params;
+      const project = await getProject(id);
+      return res.json(project);
+    }catch(ex:any ){
+      return res.status(500).json({error: ex?.message});
+    }
+
   });
 
 export default router;
