@@ -22,8 +22,8 @@ router.get('/all', async (_req, res) => {
 
 router.post('/new', async (req, res) => {
   try{
-    const { name = '', members = '', isActive = false } = req.body;
-    const newTeam = { name, members, isActive: (isActive && true) };
+    const { name = '',description='', members = '', owner='', status = false } = req.body;
+    const newTeam = { name, description,members,owner, status: (status && true) };
     const createdTeam = await createTeam(newTeam);
     res.json(createdTeam);}
   catch(ex:any ){
@@ -34,8 +34,8 @@ router.post('/new', async (req, res) => {
 router.put ('/upd/:id', async (req, res) =>{
    try{
     const {id= ''} = req.params;
-    const {name= '', members = '', isActive= false} = req.body;
-    const updatedTeam = await updateTeam(id,{name,members,isActive:(isActive&&true)});
+    const {name= '',description='', members = '', owner='', status= false} = req.body;
+    const updatedTeam = await updateTeam(id,{name,description,members,owner,status:(status&&true)});
     return res.json(updatedTeam); }
     catch(ex:any ){
       return res.status(500).json({error: ex?.message});

@@ -1,11 +1,15 @@
-export interface ITeams {
+export  interface ITeams {
     _id?: string;
     name: string;
-    members: string;
-    isActive: boolean;
+    description: string;
+    members?: string[];
+    owner?: string;
+    status: boolean;
     createdAt?: Date;
     updatedAt?: Date;
   }
+
+
   
   // const newProject: Required<IProject> = {};
   const memoryTeams: ITeams[] = [];
