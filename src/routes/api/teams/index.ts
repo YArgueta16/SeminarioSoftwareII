@@ -34,7 +34,7 @@ router.post('/new', async (req, res) => {
 router.put ('/upd/:id', async (req, res) =>{
    try{
     const {id= ''} = req.params;
-    const {name= '',description='', members = '', owner='', status= false} = req.body;
+    const {name = '',description='', members = '', owner='', status = false } = req.body;
     const updatedTeam = await updateTeam(id,{name,description,members,owner,status:(status&&true)});
     return res.json(updatedTeam); }
     catch(ex:any ){

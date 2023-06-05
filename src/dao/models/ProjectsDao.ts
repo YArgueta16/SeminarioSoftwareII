@@ -2,7 +2,7 @@ import * as File from 'fs';
 import { DaoBase } from './DaoBase';
 import {IProject} from '@libs/projects/projects';
 export class ProjectDao extends DaoBase<IProject> {
-  public finOne(id: string): Promise<IProject> {
+  public finOne(_id: string): Promise<IProject> {
       throw new Error('Method not implemented.');
   }
   private memoryProjects: IProject[] = [];

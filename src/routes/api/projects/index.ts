@@ -21,12 +21,12 @@ router.post('/echo2', (req, res) => {
 });
 
 router.get('/all', async (_req, res) => {
-  try{
+  try {
     const projects = await getProjects();
-    res.json(projects);
+    return res.json(projects);
   }
-  catch(ex:any ){
-    return res.status(500).json({error: ex?.message});
+  catch (ex: any) {
+    return res.status(500).json({ error: ex?.message });
   }
 });
 /*
@@ -39,14 +39,13 @@ router.get('/all', (_req, res) => {
 */
 
 router.post('/new', async (req, res) => {
-  try{
+  try {
     const { name = '', description = '', isActive = false } = req.body;
     const newProject = { name, description, isActive: (isActive && true) };
     const createdProject = await createProject(newProject);
-    res.json(createdProject);}
-  catch(ex:any ){
-    return res.status(500).json({error: ex?.message});
-
+    return res.json(createdProject);
+  } catch (ex: any) {
+    return res.status(500).json({ error: ex?.message });
   }
 });
 router.put ('/upd/:id', async (req, res) =>{
@@ -60,12 +59,12 @@ router.put ('/upd/:id', async (req, res) =>{
     }
   });
   router.delete('/del/:id', async (req, res) => {
-    try{
-      const {id=''} = req.params;
+    try {
+      const { id = '' } = req.params;
       const deletedProject = await deleteProject(id);
-      res.json({deleted: deletedProject, id});}
-    catch(ex:any ){
-      return res.status(500).json({error: ex?.message});
+      return res.json({ deleted: deletedProject, id });
+    } catch (ex: any) {
+      return res.status(500).json({ error: ex?.message });
     }
   });
 
